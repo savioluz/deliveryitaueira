@@ -41,6 +41,7 @@ export function Cart({
 
   const calculateTotals = () => {
     const settings = JSON.parse(localStorage.getItem(`settings_${storeId}`) || "{}")
+    console.log("[v0] Cart settings loaded:", settings)
 
     let subtotal = 0
 
@@ -61,12 +62,18 @@ export function Cart({
       subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
     }
 
-    // Calculate delivery fee
     let deliveryFee = 0
-    if (settings.deliveryEnabled !== false) {
+    // Check if delivery is explicitly enabled (true) and not disabled (false)
+    const isDeliveryEnabled = settings.deliveryEnabled === true
+    console.log("[v0] Delivery enabled check:", { deliveryEnabled: settings.deliveryEnabled, isDeliveryEnabled })
+
+    if (isDeliveryEnabled) {
       const configuredFee = settings.deliveryFee || 5
       const freeDeliveryMinimum = settings.freeDeliveryMinimum || 30
       deliveryFee = subtotal >= freeDeliveryMinimum ? 0 : configuredFee
+      console.log("[v0] Delivery fee calculation:", { configuredFee, freeDeliveryMinimum, subtotal, deliveryFee })
+    } else {
+      console.log("[v0] Delivery is disabled, no fee charged")
     }
 
     const total = subtotal + deliveryFee
@@ -137,9 +144,9 @@ export function Cart({
     message += `Subtotal: R$ ${subtotal.toFixed(2).replace(".", ",")}\n`
 
     if (settings.deliveryEnabled !== false) {
-      message += `Taxa de entrega: R$ ${deliveryFee.toFixed(2).replace(".", ",")}\n`
+      message += `Taxa de entrega: R$ ${deliveryFee.toFixed(2).replace(".", ",")}\\n`
     } else {
-      message += `Taxa de entrega: Não cobrada\n`
+      message += `Taxa de entrega: Não cobrada\\n`
     }
 
     message += `*Total: R$ ${total.toFixed(2).replace(".", ",")}*\n`
@@ -258,9 +265,9 @@ export function Cart({
                   <div className="flex justify-between">
                     <span>Taxa de entrega</span>
                     <span>
-                      {settings.deliveryEnabled === false
-                        ? "Não cobrada"
-                        : `R$ ${deliveryFee.toFixed(2).replace(".", ",")}`}
+                      {settings.deliveryEnabled === true
+                        ? `R$ ${deliveryFee.toFixed(2).replace(".", ",")}`
+                        : "Não cobrada"}
                     </span>
                   </div>
                   <div className="flex justify-between font-bold text-lg">
@@ -496,9 +503,9 @@ export function Cart({
                 <div className="flex justify-between">
                   <span>Taxa de entrega</span>
                   <span>
-                    {settings.deliveryEnabled === false
-                      ? "Não cobrada"
-                      : `R$ ${deliveryFee.toFixed(2).replace(".", ",")}`}
+                    {settings.deliveryEnabled === true
+                      ? `R$ ${deliveryFee.toFixed(2).replace(".", ",")}`
+                      : "Não cobrada"}
                   </span>
                 </div>
                 <div className="border-t pt-2 flex justify-between font-bold text-lg">
