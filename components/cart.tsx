@@ -20,6 +20,16 @@ interface CartProps {
   onCustomerDataUpdate: (data: any) => void
 }
 
+const getHardcodedSettings = (storeId: string) => ({
+  deliveryFee: 4.0, // Fixed delivery fee
+  quantityPricingEnabled: storeId === "sushi",
+  quantityTier1Max: 9,
+  quantityTier1Price: 3.5,
+  quantityTier2Price: 3.0,
+  nome: storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi",
+  whatsapp: "86999482285", // Fixed WhatsApp number
+})
+
 export function Cart({
   items,
   onBack,
@@ -40,16 +50,8 @@ export function Cart({
   })
 
   const calculateTotals = () => {
-    const settings = {
-      deliveryFee: 4.0, // Fixed delivery fee
-      quantityPricingEnabled: storeId === "sushi",
-      quantityTier1Max: 9,
-      quantityTier1Price: 3.5,
-      quantityTier2Price: 3.0,
-      nome: storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi",
-    }
-
-    console.log("[v0] Using hardcoded settings:", settings)
+    const settings = getHardcodedSettings(storeId)
+    console.log("[v0] Using hardcoded settings - no localStorage dependency:", settings)
 
     let subtotal = 0
 
@@ -91,17 +93,8 @@ export function Cart({
       neighborhood: formData.neighborhood,
     }
 
-    const clients = JSON.parse(localStorage.getItem(`clients_${storeId}`) || "[]")
-    const existingIndex = clients.findIndex((c: any) => c.phone === customerInfo.phone)
-
-    if (existingIndex >= 0) {
-      clients[existingIndex] = customerInfo
-    } else {
-      clients.unshift(customerInfo)
-    }
-
-    localStorage.setItem(`clients_${storeId}`, JSON.stringify(clients))
     onCustomerDataUpdate(customerInfo)
+    console.log("[v0] Customer data updated (not saved to localStorage):", customerInfo)
 
     setStep("confirmation")
   }
@@ -139,44 +132,32 @@ export function Cart({
 
     message += `\n💰 *Resumo:*\n`
     message += `Subtotal: R$ ${subtotal.toFixed(2).replace(".", ",")}\n`
-
-    if (settings.deliveryEnabled !== false) {
-      message += `Taxa de entrega: R$ ${deliveryFee.toFixed(2).replace(".", ",")}\n`
-    } else {
-      message += `Taxa de entrega: Não cobrada\n`
-    }
-
+    message += `Taxa de entrega: R$ ${deliveryFee.toFixed(2).replace(".", ",")}\n`
     message += `*Total: R$ ${total.toFixed(2).replace(".", ",")}*\n`
 
     if (formData.observations) {
       message += `\n📝 *Observações:* ${formData.observations}`
     }
 
-    // Clean customer phone number (remove any formatting)
-    const cleanCustomerPhone = formData.phone.replace(/\D/g, "")
+    // This is the correct way WhatsApp Web works - message goes FROM customer TO store
+    const whatsappUrl = `https://wa.me/${storePhone}?text=${encodeURIComponent(message)}`
 
-    // This creates a WhatsApp Web URL that opens with the customer's number
-    // The message will appear to come from the customer's phone number
-    const whatsappUrl = `https://web.whatsapp.com/send?phone=${storePhone}&text=${encodeURIComponent(message)}&source_phone=${cleanCustomerPhone}`
-
-    console.log("[v0] WhatsApp URL:", whatsappUrl)
-    console.log("[v0] Customer phone:", cleanCustomerPhone)
-    console.log("[v0] Store phone:", storePhone)
+    console.log("[v0] WhatsApp URL (corrected):", whatsappUrl)
+    console.log("[v0] Customer phone (in message):", formData.phone)
+    console.log("[v0] Store phone (destination):", storePhone)
+    console.log("[v0] Message will be sent FROM customer TO store")
 
     window.open(whatsappUrl, "_blank")
 
-    const order = {
+    console.log("[v0] Order completed - not saved to localStorage")
+    console.log("[v0] Order details:", {
       id: Date.now().toString(),
       date: new Date().toISOString(),
       items: items,
       total: total,
       status: "recebido",
       customer: formData,
-    }
-
-    const orders = JSON.parse(localStorage.getItem(`orders_${storeId}`) || "[]")
-    orders.unshift(order)
-    localStorage.setItem(`orders_${storeId}`, JSON.stringify(orders))
+    })
 
     // Clear cart and go back
     items.forEach((item) => onRemoveItem(item.id))

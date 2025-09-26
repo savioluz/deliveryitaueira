@@ -11,8 +11,7 @@ export default function HomePage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Initialize seed data if not exists
-    initializeSeedData()
+    console.log("[v0] Using hardcoded products and settings - no localStorage dependency")
   }, [])
 
   const initializeSeedData = () => {
@@ -56,41 +55,55 @@ export default function HomePage() {
       localStorage.setItem("settings_burger", JSON.stringify(burgerSettings))
     }
 
-    if (!sushiProducts) {
-      const seedSushiProducts = [
-        {
-          id: "sushi-1",
-          name: "Hot Filadélfia",
-          description: "Uramaki empanado com salmão, cream cheese e cebolinha",
-          price: 3.5,
-          image: "/hot-philadelphia-sushi-roll-tempura.jpg",
-          category: "Hot Rolls",
-        },
-      ]
-      localStorage.setItem("products_sushi", JSON.stringify(seedSushiProducts))
+    const seedSushiProducts = [
+      {
+        id: "sushi-1",
+        name: "Hot Filadélfia",
+        description: "Uramaki empanado com salmão, cream cheese e cebolinha",
+        price: 3.5,
+        image: "/hot-philadelphia-sushi-roll-tempura.jpg",
+        category: "Hot Rolls",
+      },
+      {
+        id: "sushi-2",
+        name: "Salmão Sashimi",
+        description: "Fatias frescas de salmão, servidas tradicionalmente",
+        price: 3.5,
+        image: "/fresh-salmon-sushi-combo-platter.jpg",
+        category: "Sashimi",
+      },
+      {
+        id: "sushi-3",
+        name: "Temaki de Salmão",
+        description: "Cone de alga com salmão fresco e pepino",
+        price: 3.5,
+        image: "/salmon-temaki-hand-roll-with-cucumber.jpg",
+        category: "Temaki",
+      },
+    ]
+    localStorage.setItem("products_sushi", JSON.stringify(seedSushiProducts))
 
-      const seedSushiCombos = [
-        {
-          id: "combo-3",
-          product_id: "sushi-1",
-          description: "Sunomono",
-          valor_adicional: 4.0,
-        },
-        {
-          id: "combo-4",
-          product_id: "sushi-1",
-          description: "Refrigerante",
-          valor_adicional: 6.0,
-        },
-      ]
-      localStorage.setItem("combos_sushi", JSON.stringify(seedSushiCombos))
+    const seedSushiCombos = [
+      {
+        id: "combo-3",
+        product_id: "sushi-1",
+        description: "Sunomono",
+        valor_adicional: 4.0,
+      },
+      {
+        id: "combo-4",
+        product_id: "sushi-1",
+        description: "Refrigerante",
+        valor_adicional: 6.0,
+      },
+    ]
+    localStorage.setItem("combos_sushi", JSON.stringify(seedSushiCombos))
 
-      const sushiSettings = {
-        whatsapp: "5589888888888",
-        nome: "Itaueira Hot Sushi",
-      }
-      localStorage.setItem("settings_sushi", JSON.stringify(sushiSettings))
+    const sushiSettings = {
+      whatsapp: "86999482285",
+      nome: "Itaueira Hot Sushi",
     }
+    localStorage.setItem("settings_sushi", JSON.stringify(sushiSettings))
   }
 
   return (

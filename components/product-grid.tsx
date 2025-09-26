@@ -23,23 +23,57 @@ interface ProductGridProps {
   onAddToCart: (product: Product) => void
 }
 
+const getHardcodedProducts = (storeId: string): Product[] => {
+  if (storeId === "burger") {
+    return [
+      {
+        id: "burger-1",
+        name: "Burger Raiz",
+        description: "Hambúrguer artesanal 180g, queijo, alface, tomate, cebola roxa e molho especial",
+        price: 25.0,
+        image: "/delicious-burger-with-cheese-lettuce-tomato.jpg",
+        category: "Hambúrgueres",
+      },
+    ]
+  } else if (storeId === "sushi") {
+    return [
+      {
+        id: "sushi-1",
+        name: "Hot Filadélfia",
+        description: "Uramaki empanado com salmão, cream cheese e cebolinha",
+        price: 3.5,
+        image: "/hot-philadelphia-sushi-roll-tempura.jpg",
+        category: "Hot Rolls",
+      },
+      {
+        id: "sushi-2",
+        name: "Salmão Sashimi",
+        description: "Fatias frescas de salmão, servidas tradicionalmente",
+        price: 3.5,
+        image: "/fresh-salmon-sushi-combo-platter.jpg",
+        category: "Sashimi",
+      },
+      {
+        id: "sushi-3",
+        name: "Temaki de Salmão",
+        description: "Cone de alga com salmão fresco e pepino",
+        price: 3.5,
+        image: "/salmon-temaki-hand-roll-with-cucumber.jpg",
+        category: "Temaki",
+      },
+    ]
+  }
+  return []
+}
+
 export function ProductGrid({ storeId, onAddToCart }: ProductGridProps) {
   const [products, setProducts] = useState<Product[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
 
   useEffect(() => {
-    try {
-      const savedProducts = localStorage.getItem(`products_${storeId}`)
-      if (savedProducts) {
-        const parsedProducts = JSON.parse(savedProducts)
-        setProducts(parsedProducts)
-      } else {
-        setProducts([])
-      }
-    } catch (error) {
-      console.error("[v0] Error loading products:", error)
-      setProducts([])
-    }
+    const hardcodedProducts = getHardcodedProducts(storeId)
+    setProducts(hardcodedProducts)
+    console.log("[v0] Loaded hardcoded products:", hardcodedProducts.length, "items for", storeId)
   }, [storeId])
 
   const filteredProducts = products.filter((product) => {

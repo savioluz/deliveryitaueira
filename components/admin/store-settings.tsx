@@ -7,54 +7,37 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
 import { Save, Phone, ImageIcon, Upload, Truck, DollarSign } from "lucide-react"
 
 interface StoreSettingsProps {
   storeId: "burger" | "sushi"
 }
 
-export function StoreSettings({ storeId }: StoreSettingsProps) {
-  const [settings, setSettings] = useState({
-    nome: storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi",
-    whatsapp: "86999482285",
-    heroImage: "",
-    deliveryEnabled: true,
-    deliveryFee: 4.0,
-    freeDeliveryMinimum: 0, // Always charge delivery fee
-    quantityPricingEnabled: storeId === "sushi",
-    quantityTier1Max: 9,
-    quantityTier1Price: 3.5,
-    quantityTier2Price: 3.0,
-  })
+const getHardcodedSettings = (storeId: string) => ({
+  nome: storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi",
+  whatsapp: "86999482285", // Fixed WhatsApp number
+  heroImage: "",
+  deliveryEnabled: true,
+  deliveryFee: 4.0, // Fixed delivery fee
+  freeDeliveryMinimum: 0,
+  quantityPricingEnabled: storeId === "sushi",
+  quantityTier1Max: 9,
+  quantityTier1Price: 3.5, // Fixed sushi price
+  quantityTier2Price: 3.0,
+})
 
+export function StoreSettings({ storeId }: StoreSettingsProps) {
+  const [settings, setSettings] = useState(getHardcodedSettings(storeId))
   const [uploadLoading, setUploadLoading] = useState(false)
 
   useEffect(() => {
-    const savedSettings = JSON.parse(localStorage.getItem(`settings_${storeId}`) || "{}")
-    setSettings({
-      nome: savedSettings.nome || (storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi"),
-      whatsapp: "86999482285",
-      heroImage: savedSettings.heroImage || "",
-      deliveryEnabled: true,
-      deliveryFee: savedSettings.deliveryFee || 4.0,
-      freeDeliveryMinimum: 0, // Always charge delivery fee
-      quantityPricingEnabled:
-        savedSettings.quantityPricingEnabled !== undefined ? savedSettings.quantityPricingEnabled : storeId === "sushi",
-      quantityTier1Max: savedSettings.quantityTier1Max || 9,
-      quantityTier1Price: savedSettings.quantityTier1Price || 3.5,
-      quantityTier2Price: savedSettings.quantityTier2Price || 3.0,
-    })
+    setSettings(getHardcodedSettings(storeId))
+    console.log("[v0] Using hardcoded settings for", storeId, "- no localStorage dependency")
   }, [storeId])
 
   const handleSave = () => {
-    console.log("[v0] Saving settings for", storeId, ":", settings)
-    localStorage.setItem(`settings_${storeId}`, JSON.stringify(settings))
-
-    const savedSettings = JSON.parse(localStorage.getItem(`settings_${storeId}`) || "{}")
-    console.log("[v0] Settings saved and verified:", savedSettings)
-
-    alert(`Configurações do ${storeId === "burger" ? "Burger Raiz" : "Hot Sushi"} salvas com sucesso!`)
+    console.log("[v0] Settings are hardcoded for", storeId, ":", settings)
+    alert(`Configurações do ${storeId === "burger" ? "Burger Raiz" : "Hot Sushi"} são fixas no código!`)
   }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,7 +126,7 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
       <div>
         <h2 className="text-2xl font-bold">Configurações da Loja</h2>
         <p className="text-muted-foreground">
-          Gerencie as configurações do {storeId === "burger" ? "Burger Raiz" : "Hot Sushi"}
+          Configurações fixas do {storeId === "burger" ? "Burger Raiz" : "Hot Sushi"} (hardcoded)
         </p>
       </div>
 
@@ -151,31 +134,20 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Phone className="w-5 h-5" />
-            Configurações WhatsApp
+            Configurações WhatsApp (Fixas)
           </CardTitle>
-          <CardDescription>Configure o número do WhatsApp para receber pedidos</CardDescription>
+          <CardDescription>Número fixo: 86999482285 para receber pedidos</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label htmlFor="nome">Nome da Loja</Label>
-            <Input
-              id="nome"
-              value={settings.nome}
-              onChange={(e) => setSettings((prev) => ({ ...prev, nome: e.target.value }))}
-              placeholder="Nome da loja"
-            />
+            <Label htmlFor="nome">Nome da Loja (Fixo)</Label>
+            <Input id="nome" value={settings.nome} disabled className="bg-muted" />
           </div>
 
           <div>
-            <Label htmlFor="whatsapp">Número do WhatsApp</Label>
-            <Input
-              id="whatsapp"
-              value={settings.whatsapp}
-              onChange={(e) => setSettings((prev) => ({ ...prev, whatsapp: e.target.value }))}
-              placeholder="86999482285"
-              helperText="Formato: DDD + número (ex: 86999482285)"
-            />
-            <p className="text-xs text-muted-foreground mt-1">Formato: DDD + número (ex: 86999482285)</p>
+            <Label htmlFor="whatsapp">Número do WhatsApp (Fixo)</Label>
+            <Input id="whatsapp" value={settings.whatsapp} disabled className="bg-muted" />
+            <p className="text-xs text-muted-foreground mt-1">Número fixo no código: 86999482285</p>
           </div>
         </CardContent>
       </Card>
@@ -184,29 +156,19 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Truck className="w-5 h-5" />
-            Taxa de Entrega
+            Taxa de Entrega (Fixa)
           </CardTitle>
-          <CardDescription>Configure o valor da taxa de entrega (sempre cobrada)</CardDescription>
+          <CardDescription>Taxa fixa de R$ 4,00 sempre cobrada</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label htmlFor="deliveryFee">Taxa de Entrega (R$)</Label>
-            <Input
-              id="deliveryFee"
-              type="number"
-              step="0.50"
-              min="0"
-              value={settings.deliveryFee}
-              onChange={(e) =>
-                setSettings((prev) => ({ ...prev, deliveryFee: Number.parseFloat(e.target.value) || 4.0 }))
-              }
-              placeholder="4.00"
-            />
-            <p className="text-xs text-muted-foreground mt-1">Valor da taxa de entrega em reais (padrão: R$ 4,00)</p>
+            <Label htmlFor="deliveryFee">Taxa de Entrega (R$) - Fixa</Label>
+            <Input id="deliveryFee" type="number" value={settings.deliveryFee} disabled className="bg-muted" />
+            <p className="text-xs text-muted-foreground mt-1">Taxa fixa no código: R$ 4,00</p>
           </div>
 
           <div className="p-3 bg-muted rounded-lg">
-            <p className="text-sm font-medium mb-1">Configuração atual:</p>
+            <p className="text-sm font-medium mb-1">Configuração fixa:</p>
             <p className="text-sm text-muted-foreground">
               • Taxa de entrega sempre cobrada: R$ {settings.deliveryFee.toFixed(2).replace(".", ",")}
             </p>
@@ -219,84 +181,22 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <DollarSign className="w-5 h-5" />
-              Preços por Quantidade (Sushi)
+              Preços por Quantidade (Fixos)
             </CardTitle>
-            <CardDescription>Configure preços diferenciados baseados na quantidade</CardDescription>
+            <CardDescription>Preços fixos: R$ 3,50 até 9 peças, R$ 3,00 a partir de 10</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>Ativar Preços por Quantidade</Label>
-                <p className="text-sm text-muted-foreground">Preços diferentes baseados na quantidade de peças</p>
-              </div>
-              <Switch
-                checked={settings.quantityPricingEnabled}
-                onCheckedChange={(checked) => setSettings((prev) => ({ ...prev, quantityPricingEnabled: checked }))}
-              />
+            <div className="p-3 bg-muted rounded-lg">
+              <p className="text-sm font-medium mb-1">Preços fixos no código:</p>
+              <p className="text-sm text-muted-foreground">
+                • Até {settings.quantityTier1Max} peças: R$ {settings.quantityTier1Price.toFixed(2).replace(".", ",")}{" "}
+                cada
+              </p>
+              <p className="text-sm text-muted-foreground">
+                • A partir de {settings.quantityTier1Max + 1} peças: R${" "}
+                {settings.quantityTier2Price.toFixed(2).replace(".", ",")} cada
+              </p>
             </div>
-
-            {settings.quantityPricingEnabled && (
-              <>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="quantityTier1Max">Até quantas peças</Label>
-                    <Input
-                      id="quantityTier1Max"
-                      type="number"
-                      min="1"
-                      value={settings.quantityTier1Max}
-                      onChange={(e) =>
-                        setSettings((prev) => ({ ...prev, quantityTier1Max: Number.parseInt(e.target.value) || 1 }))
-                      }
-                      placeholder="9"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="quantityTier1Price">Preço por peça (R$)</Label>
-                    <Input
-                      id="quantityTier1Price"
-                      type="number"
-                      step="0.10"
-                      min="0"
-                      value={settings.quantityTier1Price}
-                      onChange={(e) =>
-                        setSettings((prev) => ({ ...prev, quantityTier1Price: Number.parseFloat(e.target.value) || 0 }))
-                      }
-                      placeholder="3.50"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="quantityTier2Price">
-                    Preço a partir de {settings.quantityTier1Max + 1} peças (R$)
-                  </Label>
-                  <Input
-                    id="quantityTier2Price"
-                    type="number"
-                    step="0.10"
-                    min="0"
-                    value={settings.quantityTier2Price}
-                    onChange={(e) =>
-                      setSettings((prev) => ({ ...prev, quantityTier2Price: Number.parseFloat(e.target.value) || 0 }))
-                    }
-                    placeholder="3.00"
-                  />
-                </div>
-
-                <div className="p-3 bg-muted rounded-lg">
-                  <p className="text-sm font-medium mb-1">Exemplo de preços:</p>
-                  <p className="text-sm text-muted-foreground">
-                    • Até {settings.quantityTier1Max} peças: R${" "}
-                    {settings.quantityTier1Price.toFixed(2).replace(".", ",")} cada
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    • A partir de {settings.quantityTier1Max + 1} peças: R${" "}
-                    {settings.quantityTier2Price.toFixed(2).replace(".", ",")} cada
-                  </p>
-                </div>
-              </>
-            )}
           </CardContent>
         </Card>
       )}
@@ -407,7 +307,7 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
 
       <Button onClick={handleSave} className="w-full bg-teal-500 hover:bg-teal-600 text-white">
         <Save className="w-4 h-4 mr-2" />
-        Salvar Todas as Configurações
+        Configurações são Fixas no Código
       </Button>
     </div>
   )
