@@ -48,7 +48,12 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
   }, [storeId])
 
   const handleSave = () => {
+    console.log("[v0] Saving settings for", storeId, ":", settings)
     localStorage.setItem(`settings_${storeId}`, JSON.stringify(settings))
+
+    const savedSettings = JSON.parse(localStorage.getItem(`settings_${storeId}`) || "{}")
+    console.log("[v0] Settings saved and verified:", savedSettings)
+
     alert(`Configurações do ${storeId === "burger" ? "Burger Raiz" : "Hot Sushi"} salvas com sucesso!`)
   }
 

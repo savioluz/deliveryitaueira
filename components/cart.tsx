@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Minus, Plus, Trash2, MapPin, Phone, User } from "lucide-react"
 import type { CartItem } from "@/app/burger/page"
 
@@ -502,11 +501,6 @@ export function Cart({
                       : `R$ ${deliveryFee.toFixed(2).replace(".", ",")}`}
                   </span>
                 </div>
-                {deliveryFee === 0 && settings.deliveryEnabled !== false && (
-                  <Badge variant="secondary" className="text-xs">
-                    Entrega grátis acima de R$ {(settings.freeDeliveryMinimum || 30).toFixed(0)}!
-                  </Badge>
-                )}
                 <div className="border-t pt-2 flex justify-between font-bold text-lg">
                   <span>Total</span>
                   <span className="text-teal-600">R$ {total.toFixed(2).replace(".", ",")}</span>
