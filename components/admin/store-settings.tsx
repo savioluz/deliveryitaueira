@@ -20,8 +20,8 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
     whatsapp: storeId === "burger" ? "5589999999999" : "5589888888888",
     heroImage: "",
     deliveryEnabled: true,
-    deliveryFee: 5.0,
-    freeDeliveryMinimum: 30.0,
+    deliveryFee: 4.0,
+    freeDeliveryMinimum: 0, // Always charge delivery fee
     quantityPricingEnabled: storeId === "sushi",
     quantityTier1Max: 9,
     quantityTier1Price: 3.5,
@@ -36,9 +36,9 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
       nome: savedSettings.nome || (storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi"),
       whatsapp: savedSettings.whatsapp || (storeId === "burger" ? "5589999999999" : "5589888888888"),
       heroImage: savedSettings.heroImage || "",
-      deliveryEnabled: savedSettings.deliveryEnabled !== undefined ? savedSettings.deliveryEnabled : true,
-      deliveryFee: savedSettings.deliveryFee || 5.0,
-      freeDeliveryMinimum: savedSettings.freeDeliveryMinimum || 30.0,
+      deliveryEnabled: true,
+      deliveryFee: savedSettings.deliveryFee || 4.0,
+      freeDeliveryMinimum: 0, // Always charge delivery fee
       quantityPricingEnabled:
         savedSettings.quantityPricingEnabled !== undefined ? savedSettings.quantityPricingEnabled : storeId === "sushi",
       quantityTier1Max: savedSettings.quantityTier1Max || 9,
@@ -186,59 +186,33 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Truck className="w-5 h-5" />
-            Configurações de Entrega
+            Taxa de Entrega
           </CardTitle>
-          <CardDescription>Configure as taxas e regras de entrega</CardDescription>
+          <CardDescription>Configure o valor da taxa de entrega (sempre cobrada)</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Cobrar Taxa de Entrega</Label>
-              <p className="text-sm text-muted-foreground">Ative ou desative a cobrança de taxa de entrega</p>
-            </div>
-            <Switch
-              checked={settings.deliveryEnabled}
-              onCheckedChange={(checked) => setSettings((prev) => ({ ...prev, deliveryEnabled: checked }))}
+          <div>
+            <Label htmlFor="deliveryFee">Taxa de Entrega (R$)</Label>
+            <Input
+              id="deliveryFee"
+              type="number"
+              step="0.50"
+              min="0"
+              value={settings.deliveryFee}
+              onChange={(e) =>
+                setSettings((prev) => ({ ...prev, deliveryFee: Number.parseFloat(e.target.value) || 4.0 }))
+              }
+              placeholder="4.00"
             />
+            <p className="text-xs text-muted-foreground mt-1">Valor da taxa de entrega em reais (padrão: R$ 4,00)</p>
           </div>
 
-          {settings.deliveryEnabled && (
-            <>
-              <div>
-                <Label htmlFor="deliveryFee">Taxa de Entrega (R$)</Label>
-                <Input
-                  id="deliveryFee"
-                  type="number"
-                  step="0.50"
-                  min="0"
-                  value={settings.deliveryFee}
-                  onChange={(e) =>
-                    setSettings((prev) => ({ ...prev, deliveryFee: Number.parseFloat(e.target.value) || 0 }))
-                  }
-                  placeholder="5.00"
-                />
-                <p className="text-xs text-muted-foreground mt-1">Valor da taxa de entrega em reais</p>
-              </div>
-
-              <div>
-                <Label htmlFor="freeDeliveryMinimum">Entrega Grátis Acima de (R$)</Label>
-                <Input
-                  id="freeDeliveryMinimum"
-                  type="number"
-                  step="5.00"
-                  min="0"
-                  value={settings.freeDeliveryMinimum}
-                  onChange={(e) =>
-                    setSettings((prev) => ({ ...prev, freeDeliveryMinimum: Number.parseFloat(e.target.value) || 0 }))
-                  }
-                  placeholder="30.00"
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  Valor mínimo para entrega gratuita (0 = sempre cobrar taxa)
-                </p>
-              </div>
-            </>
-          )}
+          <div className="p-3 bg-muted rounded-lg">
+            <p className="text-sm font-medium mb-1">Configuração atual:</p>
+            <p className="text-sm text-muted-foreground">
+              • Taxa de entrega sempre cobrada: R$ {settings.deliveryFee.toFixed(2).replace(".", ",")}
+            </p>
+          </div>
         </CardContent>
       </Card>
 

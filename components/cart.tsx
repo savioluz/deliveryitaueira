@@ -62,19 +62,8 @@ export function Cart({
       subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
     }
 
-    let deliveryFee = 0
-    // Check if delivery is explicitly enabled (true) and not disabled (false)
-    const isDeliveryEnabled = settings.deliveryEnabled === true
-    console.log("[v0] Delivery enabled check:", { deliveryEnabled: settings.deliveryEnabled, isDeliveryEnabled })
-
-    if (isDeliveryEnabled) {
-      const configuredFee = settings.deliveryFee || 5
-      const freeDeliveryMinimum = settings.freeDeliveryMinimum || 30
-      deliveryFee = subtotal >= freeDeliveryMinimum ? 0 : configuredFee
-      console.log("[v0] Delivery fee calculation:", { configuredFee, freeDeliveryMinimum, subtotal, deliveryFee })
-    } else {
-      console.log("[v0] Delivery is disabled, no fee charged")
-    }
+    const deliveryFee = settings.deliveryFee || 4.0
+    console.log("[v0] Fixed delivery fee:", deliveryFee)
 
     const total = subtotal + deliveryFee
 
@@ -264,11 +253,7 @@ export function Cart({
                   </div>
                   <div className="flex justify-between">
                     <span>Taxa de entrega</span>
-                    <span>
-                      {settings.deliveryEnabled === true
-                        ? `R$ ${deliveryFee.toFixed(2).replace(".", ",")}`
-                        : "Não cobrada"}
-                    </span>
+                    <span>R$ {deliveryFee.toFixed(2).replace(".", ",")}</span>
                   </div>
                   <div className="flex justify-between font-bold text-lg">
                     <span>Total</span>
@@ -502,11 +487,7 @@ export function Cart({
                 </div>
                 <div className="flex justify-between">
                   <span>Taxa de entrega</span>
-                  <span>
-                    {settings.deliveryEnabled === true
-                      ? `R$ ${deliveryFee.toFixed(2).replace(".", ",")}`
-                      : "Não cobrada"}
-                  </span>
+                  <span>R$ {deliveryFee.toFixed(2).replace(".", ",")}</span>
                 </div>
                 <div className="border-t pt-2 flex justify-between font-bold text-lg">
                   <span>Total</span>
