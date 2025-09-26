@@ -403,30 +403,30 @@ export function Cart({
           {storeId === "sushi" && settings.quantityPricingEnabled && (
             <Card className="border-2 border-teal-200 bg-gradient-to-r from-teal-50 to-emerald-50">
               <CardContent className="p-6">
-                <div className="text-center space-y-3">
-                  <div className="inline-flex items-center justify-center w-12 h-12 bg-teal-500 text-white rounded-full mb-2">
-                    <span className="text-xl font-bold">💰</span>
+                <div className="text-center space-y-4">
+                  <div className="inline-flex items-center justify-center w-14 h-14 bg-teal-500 text-white rounded-full mb-3">
+                    <span className="text-2xl">🔒</span>
                   </div>
                   <h3 className="text-xl font-bold text-teal-700">Preço por Quantidade</h3>
-                  <div className="space-y-2 text-base">
-                    <div className="bg-white/70 rounded-lg p-3 border border-teal-200">
-                      <p className="font-semibold text-teal-800">
+                  <div className="space-y-3 text-base">
+                    <div className="bg-white/80 rounded-lg p-4 border border-teal-200 shadow-sm">
+                      <p className="font-semibold text-teal-800 text-lg">
                         Até {settings.quantityTier1Max || 9} peças: R${" "}
                         {(settings.quantityTier1Price || 3.5).toFixed(2).replace(".", ",")} cada
                       </p>
                     </div>
-                    <div className="bg-white/70 rounded-lg p-3 border border-teal-200">
-                      <p className="font-semibold text-teal-800">
+                    <div className="bg-white/80 rounded-lg p-4 border border-teal-200 shadow-sm">
+                      <p className="font-semibold text-teal-800 text-lg">
                         A partir de {(settings.quantityTier1Max || 9) + 1} peças: R${" "}
                         {(settings.quantityTier2Price || 3.0).toFixed(2).replace(".", ",")} cada
                       </p>
                     </div>
                   </div>
-                  <div className="bg-teal-600 text-white rounded-lg p-4 mt-4">
-                    <p className="text-lg font-bold">
+                  <div className="bg-teal-600 text-white rounded-lg p-5 mt-5 shadow-lg">
+                    <p className="text-xl font-bold mb-1">
                       Total de peças: {items.reduce((sum, item) => sum + item.quantity, 0)}
                     </p>
-                    <p className="text-sm opacity-90">
+                    <p className="text-base opacity-90">
                       Preço atual: R${" "}
                       {(subtotal / items.reduce((sum, item) => sum + item.quantity, 0) || 0)
                         .toFixed(2)
@@ -514,9 +514,9 @@ export function Cart({
 
           <Button
             onClick={() => setStep("address")}
-            className="w-full bg-teal-500 hover:bg-teal-600 text-white py-6 text-lg"
+            className="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white py-8 text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02] border-0"
           >
-            Continuar
+            🛒 Continuar Pedido
           </Button>
         </div>
       </div>
