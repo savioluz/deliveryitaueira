@@ -87,7 +87,10 @@ function ProductCard({ product, onAddToCart }: { product: Product; onAddToCart: 
   const { imageUrl, loading } = useProductImage(product)
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-1">
+    <Card
+      className="overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-1 cursor-pointer group"
+      onClick={() => onAddToCart(product)}
+    >
       <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">
         {loading ? (
           <div className="w-full h-full bg-gray-200 animate-pulse flex items-center justify-center">
@@ -97,7 +100,7 @@ function ProductCard({ product, onAddToCart }: { product: Product; onAddToCart: 
           <img
             src={imageUrl || "/default-food-image.jpg"}
             alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
             onError={(e) => {
               const target = e.target as HTMLImageElement
               if (target.src !== "/default-food-image.jpg") {
@@ -134,14 +137,10 @@ function ProductCard({ product, onAddToCart }: { product: Product; onAddToCart: 
       <CardContent className="pt-0">
         <div className="flex items-center justify-between">
           <div className="text-xl font-bold text-teal-600">R$ {product.price.toFixed(2).replace(".", ",")}</div>
-          <Button
-            onClick={() => onAddToCart(product)}
-            className="bg-teal-500 hover:bg-teal-600 text-white transition-colors duration-200"
-            size="sm"
-          >
-            <Plus className="w-4 h-4 mr-1" />
+          <div className="bg-teal-500 text-white px-3 py-2 rounded-lg text-sm font-medium group-hover:bg-teal-600 transition-colors duration-200">
+            <Plus className="w-4 h-4 inline mr-1" />
             Adicionar
-          </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

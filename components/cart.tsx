@@ -402,22 +402,38 @@ export function Cart({
 
         <div className="space-y-4">
           {storeId === "sushi" && settings.quantityPricingEnabled && (
-            <Card>
-              <CardContent className="p-4">
-                <div className="text-center space-y-2">
-                  <h3 className="font-semibold text-teal-600">Preço por Quantidade</h3>
-                  <div className="text-sm text-muted-foreground">
-                    <p>
-                      Até {settings.quantityTier1Max || 9} peças: R${" "}
-                      {(settings.quantityTier1Price || 3.5).toFixed(2).replace(".", ",")} cada
-                    </p>
-                    <p>
-                      A partir de {(settings.quantityTier1Max || 9) + 1} peças: R${" "}
-                      {(settings.quantityTier2Price || 3.0).toFixed(2).replace(".", ",")} cada
-                    </p>
+            <Card className="border-2 border-teal-200 bg-gradient-to-r from-teal-50 to-emerald-50">
+              <CardContent className="p-6">
+                <div className="text-center space-y-3">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-teal-500 text-white rounded-full mb-2">
+                    <span className="text-xl font-bold">💰</span>
                   </div>
-                  <div className="text-lg font-bold">
-                    Total de peças: {items.reduce((sum, item) => sum + item.quantity, 0)}
+                  <h3 className="text-xl font-bold text-teal-700">Preço por Quantidade</h3>
+                  <div className="space-y-2 text-base">
+                    <div className="bg-white/70 rounded-lg p-3 border border-teal-200">
+                      <p className="font-semibold text-teal-800">
+                        Até {settings.quantityTier1Max || 9} peças: R${" "}
+                        {(settings.quantityTier1Price || 3.5).toFixed(2).replace(".", ",")} cada
+                      </p>
+                    </div>
+                    <div className="bg-white/70 rounded-lg p-3 border border-teal-200">
+                      <p className="font-semibold text-teal-800">
+                        A partir de {(settings.quantityTier1Max || 9) + 1} peças: R${" "}
+                        {(settings.quantityTier2Price || 3.0).toFixed(2).replace(".", ",")} cada
+                      </p>
+                    </div>
+                  </div>
+                  <div className="bg-teal-600 text-white rounded-lg p-4 mt-4">
+                    <p className="text-lg font-bold">
+                      Total de peças: {items.reduce((sum, item) => sum + item.quantity, 0)}
+                    </p>
+                    <p className="text-sm opacity-90">
+                      Preço atual: R${" "}
+                      {(subtotal / items.reduce((sum, item) => sum + item.quantity, 0) || 0)
+                        .toFixed(2)
+                        .replace(".", ",")}{" "}
+                      por peça
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -429,13 +445,13 @@ export function Cart({
               <CardContent className="p-4">
                 <div className="flex gap-4">
                   <img
-                    src={item.image || "/placeholder.svg?height=64&width=64&query=food"}
+                    src={item.image || "/placeholder.svg?height=96&width=96&query=food"}
                     alt={item.name}
-                    className="w-16 h-16 object-cover rounded-lg"
+                    className="w-24 h-24 object-cover rounded-lg border-2 border-gray-200"
                   />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-sm">{item.name}</h3>
-                    <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{item.description}</p>
+                    <h3 className="font-semibold text-base">{item.name}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{item.description}</p>
                     <div className="flex items-center justify-between mt-3">
                       <div className="flex items-center gap-2">
                         <Button
