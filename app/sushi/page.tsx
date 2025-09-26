@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, MapPin, Clock, Star, ArrowLeft } from "lucide-react"
+import { ShoppingCart, Clock, Star, ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { ProductGrid } from "@/components/product-grid"
 import { Cart } from "@/components/cart"
@@ -166,10 +166,6 @@ export default function SushiPage() {
                       </p>
                       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm drop-shadow-md">
                         <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-teal-400" />
-                          <span>Entrega grátis acima de R$ 30</span>
-                        </div>
-                        <div className="flex items-center gap-2">
                           <Clock className="w-4 h-4 text-teal-400" />
                           <span>35-45 min</span>
                         </div>
@@ -189,10 +185,6 @@ export default function SushiPage() {
                       Sushi fresco e saboroso, preparado com técnicas tradicionais
                     </p>
                     <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground drop-shadow-sm">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-teal-500" />
-                        <span>Entrega grátis acima de R$ 30</span>
-                      </div>
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4 text-teal-500" />
                         <span>35-45 min</span>
