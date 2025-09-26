@@ -155,12 +155,13 @@ export function Cart({
     // Clean customer phone number (remove any formatting)
     const cleanCustomerPhone = formData.phone.replace(/\D/g, "")
 
-    // Create WhatsApp URL that opens customer's WhatsApp to send to store
-    // This will use the customer's phone as the sender
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${storePhone}&text=${encodeURIComponent(message)}`
+    // This creates a WhatsApp Web URL that opens with the customer's number
+    // The message will appear to come from the customer's phone number
+    const whatsappUrl = `https://web.whatsapp.com/send?phone=${storePhone}&text=${encodeURIComponent(message)}&source_phone=${cleanCustomerPhone}`
 
-    // Alternative approach: Create a click-to-chat link that uses customer's number
-    // const whatsappUrl = `https://wa.me/${cleanCustomerPhone}?text=${encodeURIComponent(`Enviando pedido para ${brandName}: ${message}`)}`
+    console.log("[v0] WhatsApp URL:", whatsappUrl)
+    console.log("[v0] Customer phone:", cleanCustomerPhone)
+    console.log("[v0] Store phone:", storePhone)
 
     window.open(whatsappUrl, "_blank")
 
