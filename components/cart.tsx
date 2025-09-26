@@ -112,7 +112,7 @@ export function Cart({
 
     let message = `🍽️ *Novo Pedido - ${brandName}*\n\n`
     message += `👤 *Cliente:* ${formData.name}\n`
-    message += `📱 *Telefone do Cliente:* ${formData.phone}\n` // Customer's phone in message
+    message += `📱 *Telefone do Cliente:* ${formData.phone}\n`
     message += `📍 *Endereço:* ${formData.address}\n`
     if (formData.complement) message += `🏠 *Complemento:* ${formData.complement}\n`
     message += `🏘️ *Bairro:* ${formData.neighborhood}\n\n`
@@ -152,8 +152,16 @@ export function Cart({
       message += `\n📝 *Observações:* ${formData.observations}`
     }
 
-    // The message will be sent FROM the customer's WhatsApp TO the store
-    const whatsappUrl = `https://wa.me/${storePhone}?text=${encodeURIComponent(message)}`
+    // Clean customer phone number (remove any formatting)
+    const cleanCustomerPhone = formData.phone.replace(/\D/g, "")
+
+    // Create WhatsApp URL that opens customer's WhatsApp to send to store
+    // This will use the customer's phone as the sender
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${storePhone}&text=${encodeURIComponent(message)}`
+
+    // Alternative approach: Create a click-to-chat link that uses customer's number
+    // const whatsappUrl = `https://wa.me/${cleanCustomerPhone}?text=${encodeURIComponent(`Enviando pedido para ${brandName}: ${message}`)}`
+
     window.open(whatsappUrl, "_blank")
 
     const order = {
