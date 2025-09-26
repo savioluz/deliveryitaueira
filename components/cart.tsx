@@ -27,7 +27,7 @@ const getHardcodedSettings = (storeId: string) => ({
   quantityTier1Price: 3.5,
   quantityTier2Price: 3.0,
   nome: storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi",
-  whatsapp: "86999482285", // Fixed WhatsApp number
+  whatsapp: "558699482285", // Corrected store number
 })
 
 export function Cart({
@@ -101,7 +101,23 @@ export function Cart({
 
   const handleWhatsAppOrder = () => {
     const brandName = storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi"
-    const storePhone = "86999482285" // Store number that RECEIVES the messages
+    const storePhone = "558699482285" // Store number that RECEIVES the messages
+
+    console.log("[v0] === WHATSAPP DEBUG INFO ===")
+    console.log("[v0] Customer making order:", formData.name)
+    console.log("[v0] Customer phone (in message):", formData.phone)
+    console.log("[v0] Store phone (URL destination):", storePhone)
+    console.log("[v0] How WhatsApp works:")
+    console.log("[v0] - Customer clicks button on THEIR phone")
+    console.log("[v0] - Opens CUSTOMER's WhatsApp")
+    console.log("[v0] - Creates conversation TO store number:", storePhone)
+    console.log("[v0] - Message is sent FROM customer TO store")
+
+    if (formData.phone === "86999482285" || formData.phone === "558699482285") {
+      console.log("[v0] WARNING: You are testing with the SAME number as the store!")
+      console.log("[v0] This will show 'você' because it's the same WhatsApp account")
+      console.log("[v0] Try testing with a different phone number like: 86999999999")
+    }
 
     let message = `🍽️ *Novo Pedido - ${brandName}*\n\n`
     message += `👤 *Cliente:* ${formData.name}\n`
@@ -139,13 +155,15 @@ export function Cart({
       message += `\n📝 *Observações:* ${formData.observations}`
     }
 
-    // This is the correct way WhatsApp Web works - message goes FROM customer TO store
     const whatsappUrl = `https://wa.me/${storePhone}?text=${encodeURIComponent(message)}`
 
-    console.log("[v0] WhatsApp URL (corrected):", whatsappUrl)
-    console.log("[v0] Customer phone (in message):", formData.phone)
-    console.log("[v0] Store phone (destination):", storePhone)
-    console.log("[v0] Message will be sent FROM customer TO store")
+    console.log("[v0] Final WhatsApp URL:", whatsappUrl)
+    console.log("[v0] When clicked, this will:")
+    console.log("[v0] 1. Open customer's WhatsApp app")
+    console.log("[v0] 2. Create conversation with store number:", storePhone)
+    console.log("[v0] 3. Pre-fill message with order details")
+    console.log("[v0] 4. Customer sends message TO store")
+    console.log("[v0] === END DEBUG INFO ===")
 
     window.open(whatsappUrl, "_blank")
 
