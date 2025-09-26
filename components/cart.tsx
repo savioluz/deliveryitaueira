@@ -401,32 +401,32 @@ export function Cart({
 
         <div className="space-y-4">
           {storeId === "sushi" && settings.quantityPricingEnabled && (
-            <Card className="border-2 border-teal-200 bg-gradient-to-r from-teal-50 to-emerald-50">
-              <CardContent className="p-6">
-                <div className="text-center space-y-4">
-                  <div className="inline-flex items-center justify-center w-14 h-14 bg-teal-500 text-white rounded-full mb-3">
-                    <span className="text-2xl">🔒</span>
+            <Card className="border-4 border-teal-300 bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50 shadow-xl">
+              <CardContent className="p-8">
+                <div className="text-center space-y-6">
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-teal-500 to-emerald-500 text-white rounded-full mb-4 shadow-lg">
+                    <span className="text-3xl">🔒</span>
                   </div>
-                  <h3 className="text-xl font-bold text-teal-700">Preço por Quantidade</h3>
-                  <div className="space-y-3 text-base">
-                    <div className="bg-white/80 rounded-lg p-4 border border-teal-200 shadow-sm">
-                      <p className="font-semibold text-teal-800 text-lg">
+                  <h3 className="text-2xl font-bold text-teal-700 mb-6">Preço por Quantidade</h3>
+                  <div className="space-y-4 text-lg">
+                    <div className="bg-white/90 rounded-xl p-6 border-2 border-teal-200 shadow-md hover:shadow-lg transition-shadow">
+                      <p className="font-bold text-teal-800 text-xl">
                         Até {settings.quantityTier1Max || 9} peças: R${" "}
                         {(settings.quantityTier1Price || 3.5).toFixed(2).replace(".", ",")} cada
                       </p>
                     </div>
-                    <div className="bg-white/80 rounded-lg p-4 border border-teal-200 shadow-sm">
-                      <p className="font-semibold text-teal-800 text-lg">
+                    <div className="bg-white/90 rounded-xl p-6 border-2 border-teal-200 shadow-md hover:shadow-lg transition-shadow">
+                      <p className="font-bold text-teal-800 text-xl">
                         A partir de {(settings.quantityTier1Max || 9) + 1} peças: R${" "}
                         {(settings.quantityTier2Price || 3.0).toFixed(2).replace(".", ",")} cada
                       </p>
                     </div>
                   </div>
-                  <div className="bg-teal-600 text-white rounded-lg p-5 mt-5 shadow-lg">
-                    <p className="text-xl font-bold mb-1">
+                  <div className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-xl p-8 mt-8 shadow-2xl border-2 border-teal-400">
+                    <p className="text-2xl font-bold mb-2">
                       Total de peças: {items.reduce((sum, item) => sum + item.quantity, 0)}
                     </p>
-                    <p className="text-base opacity-90">
+                    <p className="text-lg opacity-95">
                       Preço atual: R${" "}
                       {(subtotal / items.reduce((sum, item) => sum + item.quantity, 0) || 0)
                         .toFixed(2)
@@ -514,9 +514,15 @@ export function Cart({
 
           <Button
             onClick={() => setStep("address")}
-            className="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white py-8 text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02] border-0"
+            className="w-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-600 hover:from-teal-600 hover:via-emerald-600 hover:to-teal-700 text-white py-12 px-8 text-2xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-[1.03] border-0 rounded-2xl"
           >
-            🛒 Continuar Pedido
+            <div className="flex items-center justify-center gap-4">
+              <span className="text-3xl">🛒</span>
+              <div className="text-center">
+                <div className="text-2xl font-black">CONTINUAR PEDIDO</div>
+                <div className="text-lg opacity-90 font-semibold">Total: R$ {total.toFixed(2).replace(".", ",")}</div>
+              </div>
+            </div>
           </Button>
         </div>
       </div>
