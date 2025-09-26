@@ -100,7 +100,7 @@ export function Cart({
 
   const handleWhatsAppOrder = () => {
     const brandName = settings.nome || (storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi")
-    const storePhone = settings.whatsapp || (storeId === "burger" ? "5589994068695" : "5586999482285")
+    const storePhone = "5586999482285"
 
     let message = `🍽️ *Novo Pedido - ${brandName}*\n\n`
     message += `👤 *Cliente:* ${formData.name}\n`
