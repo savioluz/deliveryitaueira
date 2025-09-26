@@ -100,7 +100,7 @@ export function Cart({
 
   const handleWhatsAppOrder = () => {
     const brandName = settings.nome || (storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi")
-    const phone = settings.whatsapp || (storeId === "burger" ? "5589999999999" : "5589888888888")
+    const storePhone = settings.whatsapp || (storeId === "burger" ? "5589994068695" : "5586999482285")
 
     let message = `🍽️ *Novo Pedido - ${brandName}*\n\n`
     message += `👤 *Cliente:* ${formData.name}\n`
@@ -133,9 +133,9 @@ export function Cart({
     message += `Subtotal: R$ ${subtotal.toFixed(2).replace(".", ",")}\n`
 
     if (settings.deliveryEnabled !== false) {
-      message += `Taxa de entrega: R$ ${deliveryFee.toFixed(2).replace(".", ",")}\\n`
+      message += `Taxa de entrega: R$ ${deliveryFee.toFixed(2).replace(".", ",")}\n`
     } else {
-      message += `Taxa de entrega: Não cobrada\\n`
+      message += `Taxa de entrega: Não cobrada\n`
     }
 
     message += `*Total: R$ ${total.toFixed(2).replace(".", ",")}*\n`
@@ -144,7 +144,7 @@ export function Cart({
       message += `\n📝 *Observações:* ${formData.observations}`
     }
 
-    const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+    const whatsappUrl = `https://wa.me/${storePhone}?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, "_blank")
 
     const order = {
