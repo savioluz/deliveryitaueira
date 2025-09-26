@@ -108,11 +108,11 @@ export function Cart({
 
   const handleWhatsAppOrder = () => {
     const brandName = storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi"
-    const storePhone = "86999482285" // Fixed WhatsApp number for all orders
+    const storePhone = "86999482285" // Store number that RECEIVES the messages
 
     let message = `🍽️ *Novo Pedido - ${brandName}*\n\n`
     message += `👤 *Cliente:* ${formData.name}\n`
-    message += `📱 *Telefone:* ${formData.phone}\n`
+    message += `📱 *Telefone do Cliente:* ${formData.phone}\n` // Customer's phone in message
     message += `📍 *Endereço:* ${formData.address}\n`
     if (formData.complement) message += `🏠 *Complemento:* ${formData.complement}\n`
     message += `🏘️ *Bairro:* ${formData.neighborhood}\n\n`
@@ -152,6 +152,7 @@ export function Cart({
       message += `\n📝 *Observações:* ${formData.observations}`
     }
 
+    // The message will be sent FROM the customer's WhatsApp TO the store
     const whatsappUrl = `https://wa.me/${storePhone}?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, "_blank")
 
