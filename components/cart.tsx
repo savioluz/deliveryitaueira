@@ -514,13 +514,15 @@ export function Cart({
 
           <Button
             onClick={() => setStep("address")}
-            className="w-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-600 hover:from-teal-600 hover:via-emerald-600 hover:to-teal-700 text-white py-12 px-8 text-2xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-[1.03] border-0 rounded-2xl"
+            className="w-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-600 hover:from-teal-600 hover:via-emerald-600 hover:to-teal-700 text-white py-16 px-10 text-3xl font-black shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-[1.05] border-0 rounded-3xl animate-pulse hover:animate-none"
           >
-            <div className="flex items-center justify-center gap-4">
-              <span className="text-3xl">🛒</span>
+            <div className="flex items-center justify-center gap-6">
+              <span className="text-5xl animate-bounce">🛒</span>
               <div className="text-center">
-                <div className="text-2xl font-black">CONTINUAR PEDIDO</div>
-                <div className="text-lg opacity-90 font-semibold">Total: R$ {total.toFixed(2).replace(".", ",")}</div>
+                <div className="text-3xl font-black mb-2 tracking-wide">CONTINUAR PEDIDO</div>
+                <div className="text-xl opacity-95 font-bold bg-white/20 rounded-full px-4 py-1">
+                  Total: R$ {total.toFixed(2).replace(".", ",")}
+                </div>
               </div>
             </div>
           </Button>
