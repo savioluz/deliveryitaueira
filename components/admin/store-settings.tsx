@@ -17,7 +17,7 @@ interface StoreSettingsProps {
 export function StoreSettings({ storeId }: StoreSettingsProps) {
   const [settings, setSettings] = useState({
     nome: storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi",
-    whatsapp: storeId === "burger" ? "5589999999999" : "5589888888888",
+    whatsapp: "86999482285",
     heroImage: "",
     deliveryEnabled: true,
     deliveryFee: 4.0,
@@ -34,7 +34,7 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
     const savedSettings = JSON.parse(localStorage.getItem(`settings_${storeId}`) || "{}")
     setSettings({
       nome: savedSettings.nome || (storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi"),
-      whatsapp: savedSettings.whatsapp || (storeId === "burger" ? "5589999999999" : "5589888888888"),
+      whatsapp: "86999482285",
       heroImage: savedSettings.heroImage || "",
       deliveryEnabled: true,
       deliveryFee: savedSettings.deliveryFee || 4.0,
@@ -172,12 +172,10 @@ export function StoreSettings({ storeId }: StoreSettingsProps) {
               id="whatsapp"
               value={settings.whatsapp}
               onChange={(e) => setSettings((prev) => ({ ...prev, whatsapp: e.target.value }))}
-              placeholder="5589999999999"
-              helperText="Formato: código do país + DDD + número (ex: 5589999999999)"
+              placeholder="86999482285"
+              helperText="Formato: DDD + número (ex: 86999482285)"
             />
-            <p className="text-xs text-muted-foreground mt-1">
-              Formato: código do país + DDD + número (ex: 5589999999999)
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Formato: DDD + número (ex: 86999482285)</p>
           </div>
         </CardContent>
       </Card>

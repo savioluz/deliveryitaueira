@@ -40,8 +40,16 @@ export function Cart({
   })
 
   const calculateTotals = () => {
-    const settings = JSON.parse(localStorage.getItem(`settings_${storeId}`) || "{}")
-    console.log("[v0] Cart settings loaded:", settings)
+    const settings = {
+      deliveryFee: 4.0, // Fixed delivery fee
+      quantityPricingEnabled: storeId === "sushi",
+      quantityTier1Max: 9,
+      quantityTier1Price: 3.5,
+      quantityTier2Price: 3.0,
+      nome: storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi",
+    }
+
+    console.log("[v0] Using hardcoded settings:", settings)
 
     let subtotal = 0
 
@@ -99,8 +107,8 @@ export function Cart({
   }
 
   const handleWhatsAppOrder = () => {
-    const brandName = settings.nome || (storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi")
-    const storePhone = "86999482285" // Hardcoded number without country code prefix
+    const brandName = storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi"
+    const storePhone = "86999482285" // Fixed WhatsApp number for all orders
 
     let message = `🍽️ *Novo Pedido - ${brandName}*\n\n`
     message += `👤 *Cliente:* ${formData.name}\n`
