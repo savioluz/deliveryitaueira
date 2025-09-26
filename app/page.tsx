@@ -62,7 +62,7 @@ export default function HomePage() {
           id: "sushi-1",
           name: "Hot Filadélfia",
           description: "Uramaki empanado com salmão, cream cheese e cebolinha",
-          price: 28.0,
+          price: 3.5,
           image: "/hot-philadelphia-sushi-roll-tempura.jpg",
           category: "Hot Rolls",
         },
