@@ -35,6 +35,15 @@ const getHardcodedProducts = (storeId: string): Product[] => {
         image: "/texas-burger-artesanal.png",
         category: "Hambúrgueres",
       },
+      {
+        id: "burger-2",
+        name: "Burger Cordeiro",
+        description:
+          "Pão brioche dourado, molho especial, alface crocante, tomate fresco, blend de cordeiro artesanal, queijo cheddar, fatia de abacaxi grelhada e molho barbecue de goiaba",
+        price: 28.0,
+        image: "/burger-cordeiro-artesanal.png",
+        category: "Hambúrgueres",
+      },
     ]
   } else if (storeId === "sushi") {
     return [
