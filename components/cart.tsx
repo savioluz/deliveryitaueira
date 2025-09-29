@@ -27,7 +27,7 @@ const getHardcodedSettings = (storeId: string) => ({
   quantityTier1Price: 3.5,
   quantityTier2Price: 3.0,
   nome: storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi",
-  whatsapp: "558699482285", // Corrected store number
+  whatsapp: "5586987654321", // Test store number
 })
 
 export function Cart({
@@ -101,7 +101,7 @@ export function Cart({
 
   const handleWhatsAppOrder = () => {
     const brandName = storeId === "burger" ? "Itaueira Burger Raiz" : "Itaueira Hot Sushi"
-    const storePhone = "558699482285" // Store number that RECEIVES the messages
+    const storePhone = "5586987654321" // Different store number for testing
 
     console.log("[v0] === WHATSAPP DEBUG INFO ===")
     console.log("[v0] Customer making order:", formData.name)
@@ -113,10 +113,14 @@ export function Cart({
     console.log("[v0] - Creates conversation TO store number:", storePhone)
     console.log("[v0] - Message is sent FROM customer TO store")
 
-    if (formData.phone === "86999482285" || formData.phone === "558699482285") {
-      console.log("[v0] WARNING: You are testing with the SAME number as the store!")
+    const customerPhoneClean = formData.phone.replace(/\D/g, "")
+    const storePhoneClean = storePhone.replace(/\D/g, "")
+
+    if (customerPhoneClean.includes("87654321") || formData.phone === "86987654321") {
+      console.log("[v0] ⚠️  TESTING DETECTED: You are using the test store number as customer!")
       console.log("[v0] This will show 'você' because it's the same WhatsApp account")
-      console.log("[v0] Try testing with a different phone number like: 86999999999")
+      console.log("[v0] For real customers with different numbers, it works correctly")
+      console.log("[v0] Try testing with: 86999999999 (different from store)")
     }
 
     let message = `🍽️ *Novo Pedido - ${brandName}*\n\n`

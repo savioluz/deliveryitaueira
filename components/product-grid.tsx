@@ -28,10 +28,11 @@ const getHardcodedProducts = (storeId: string): Product[] => {
     return [
       {
         id: "burger-1",
-        name: "Burger Raiz",
-        description: "Hambúrguer artesanal 180g, queijo, alface, tomate, cebola roxa e molho especial",
+        name: "Texas",
+        description:
+          "Hambúrguer artesanal 100g, blend suíno (Linguiça toscana) queijo, alface, tomate, e molho especial Burger Raiz",
         price: 25.0,
-        image: "/delicious-burger-with-cheese-lettuce-tomato.jpg",
+        image: "/texas-burger-artesanal.png",
         category: "Hambúrgueres",
       },
     ]
