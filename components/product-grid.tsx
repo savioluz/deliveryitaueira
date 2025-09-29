@@ -44,6 +44,14 @@ const getHardcodedProducts = (storeId: string): Product[] => {
         image: "/burger-cordeiro-artesanal.png",
         category: "Hambúrgueres",
       },
+      {
+        id: "burger-3",
+        name: "X Burger",
+        description: "Molho da casa, alface cortado, tomate, blend bovino, queijo cheddar",
+        price: 20.0,
+        image: "/x-burger-classico.png",
+        category: "Hambúrgueres",
+      },
     ]
   } else if (storeId === "sushi") {
     return [
